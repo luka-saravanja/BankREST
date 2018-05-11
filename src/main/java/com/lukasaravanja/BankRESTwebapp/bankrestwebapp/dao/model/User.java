@@ -11,6 +11,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -23,7 +26,7 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id",updatable = false,nullable = false)
+	@Column(name = "user_id",updatable = false,nullable = false)
 	private Long userId;
 	
 	@Column(name = "username",unique = true)
@@ -32,25 +35,19 @@ public class User {
 	@Column(name = "password")
 	private String password;
 	
-	@Column(name = " role")
-	private String role;
 
 	@OneToMany(cascade = CascadeType.ALL,
-				fetch = FetchType.LAZY,
-				mappedBy="accounts")
+				fetch = FetchType.LAZY
+				)
 	private Set<Accounts> accounts=new HashSet<>();
+	
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles;
 	
 	public User()
 	{}
-	
-	
-
-	public User(String username, String password, String role) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.role = role;
-	}
 
 	public Long getUserId() {
 		return userId;
@@ -64,12 +61,16 @@ public class User {
 		return password;
 	}
 
-	public String getRole() {
-		return role;
-	}
-
 	public Set<Accounts> getAccounts() {
 		return accounts;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public void setUsername(String username) {
@@ -80,21 +81,26 @@ public class User {
 		this.password = password;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
-	}
-
 	public void setAccounts(Set<Accounts> accounts) {
 		this.accounts = accounts;
 	}
 
-
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", role=" + role
-				+ ", accounts=" + accounts + "]";
+		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", accounts=" + accounts
+				+ ", roles=" + roles + "]";
 	}
+	
+	
+
+	
+
+
+
 	
 	
 	
