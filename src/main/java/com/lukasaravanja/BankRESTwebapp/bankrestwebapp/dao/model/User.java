@@ -35,6 +35,9 @@ public class User {
 	@Column(name = "password")
 	private String password;
 	
+	@Column(name = "enabled")
+	private Integer enabled;
+	
 
 	@OneToMany(cascade = CascadeType.ALL,
 				fetch = FetchType.LAZY
@@ -89,11 +92,23 @@ public class User {
 		this.roles = roles;
 	}
 
+	
+
+	public int getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
+	}
+
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", accounts=" + accounts
-				+ ", roles=" + roles + "]";
+		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", enabled=" + enabled
+				+ ", accounts=" + accounts + ", roles=" + roles + "]";
 	}
+
+	
 	
 	
 

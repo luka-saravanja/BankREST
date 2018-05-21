@@ -7,7 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.math.BigDecimal;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -20,7 +19,7 @@ public class Accounts {
 	@Id
 	private int accountNumber;
 	
-	private BigDecimal accountBalance;
+	private double accountBalance;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userId",nullable = false)
@@ -30,7 +29,7 @@ public class Accounts {
 		return accountNumber;
 	}
 
-	public BigDecimal getAccountBalance() {
+	public double getAccountBalance() {
 		return accountBalance;
 	}
 
@@ -42,7 +41,7 @@ public class Accounts {
 		this.accountNumber = accountNumber;
 	}
 
-	public void setAccountBalance(BigDecimal accountBalance) {
+	public void setAccountBalance(double accountBalance) {
 		this.accountBalance = accountBalance;
 	}
 
