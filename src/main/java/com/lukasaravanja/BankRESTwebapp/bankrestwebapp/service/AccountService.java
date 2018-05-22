@@ -5,6 +5,7 @@ import java.util.Objects;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -62,4 +63,17 @@ public class AccountService  {
 			
 			
 		}
+
+	public Accounts insertAccount(Accounts account) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		User currentUser = this.userRepository.findByUsername(auth.getName());
+		
+		account.setUser(currentUser);
+		
+		this.accountsRepository.save(account);
+		
+		return this.accountsRepository.findByAccountNumber(account.getAccountNumber());
+		
+	}
 }

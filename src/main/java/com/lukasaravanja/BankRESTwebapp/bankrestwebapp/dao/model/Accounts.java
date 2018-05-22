@@ -3,12 +3,16 @@ package com.lukasaravanja.BankRESTwebapp.bankrestwebapp.dao.model;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -17,6 +21,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class Accounts {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int accountNumber;
 	
 	private double accountBalance;
@@ -32,7 +37,8 @@ public class Accounts {
 	public double getAccountBalance() {
 		return accountBalance;
 	}
-
+	
+	@JsonIgnore
 	public User getUser() {
 		return user;
 	}

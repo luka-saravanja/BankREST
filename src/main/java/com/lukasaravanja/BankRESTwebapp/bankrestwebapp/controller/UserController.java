@@ -59,6 +59,12 @@ public class UserController {
 		
 		}
 	
+	@PostMapping("/user/accounts")
+		public Accounts insertAccount(@RequestBody(required=true) Accounts account) {
+			return this.accountService.insertAccount(account);
+		}
+	
+	
 	@PostMapping("/user/deposit")
 	private void depositMoney(@RequestParam("accountNumber") int accountNumber,@RequestParam("amount") double amount)
 	{

@@ -17,11 +17,17 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "user")
 @EntityListeners(AuditingEntityListener.class)
+@JsonInclude(Include.NON_NULL)
 public class User {
 	
 	@Id
@@ -38,14 +44,14 @@ public class User {
 	@Column(name = "enabled")
 	private Integer enabled;
 	
-
+	
 	@OneToMany(cascade = CascadeType.ALL,
 				fetch = FetchType.LAZY
 				)
 	private Set<Accounts> accounts=new HashSet<>();
 	
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
 	
@@ -65,7 +71,7 @@ public class User {
 	}
 
 	public Set<Accounts> getAccounts() {
-		return accounts;
+		return null;
 	}
 
 	public Set<Role> getRoles() {

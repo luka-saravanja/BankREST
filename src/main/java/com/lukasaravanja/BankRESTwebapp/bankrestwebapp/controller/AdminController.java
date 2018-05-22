@@ -1,5 +1,7 @@
 package com.lukasaravanja.BankRESTwebapp.bankrestwebapp.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,13 +24,13 @@ public class AdminController {
 	private UserRepository userRepository;
 	
 	@GetMapping(value = "/admin/users")
-	public java.util.List<User> users()
+	public List<User> users()
 	{
 		return userRepository.findAll();
 	}
 	
 	@GetMapping(value = "/admin/accounts")
-	public java.util.List<Accounts> accounts()
+	public List<Accounts> accounts()
 	{
 		return accountRepository.findAll();
 	}

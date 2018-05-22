@@ -29,9 +29,7 @@ public interface AccountsRepository extends JpaRepository<Accounts,Integer> {
 	@Query("UPDATE Accounts SET account_balance=account_balance - ?1 WHERE account_number= ?2")
 	public void withdrawMoney(@Param("amount") double amount,@Param("accountNumber") int  accountNumber);
 	
-//	@Query("INSERT INTO Accounts (account_number,account_balance,user_id) VALUES (?1,?2,?3)")
-//	public void createAccount(@Param("account_number") int accountNumber,@Param("account_balance")double accountBalance,@Param("user_id")Long userId);
-	
+
 	
 
 }

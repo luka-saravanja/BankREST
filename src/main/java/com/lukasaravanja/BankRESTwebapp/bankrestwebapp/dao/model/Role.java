@@ -13,6 +13,8 @@ import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = " role ")
 @EntityListeners(AuditingEntityListener.class)
@@ -49,6 +51,7 @@ public class Role {
 		return name;
 	}
 
+	@JsonIgnore
 	public Set<User> getUsers() {
 		return users;
 	}
