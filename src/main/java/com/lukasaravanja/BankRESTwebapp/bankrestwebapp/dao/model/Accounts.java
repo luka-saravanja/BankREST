@@ -38,7 +38,6 @@ public class Accounts {
 		return accountBalance;
 	}
 	
-	@JsonIgnore
 	public User getUser() {
 		return user;
 	}
@@ -50,7 +49,8 @@ public class Accounts {
 	public void setAccountBalance(double accountBalance) {
 		this.accountBalance = accountBalance;
 	}
-
+	
+	@JsonIgnore
 	public void setUser(User user) {
 		this.user = user;
 	}

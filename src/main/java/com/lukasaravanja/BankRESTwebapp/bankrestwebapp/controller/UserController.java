@@ -17,6 +17,7 @@ import com.lukasaravanja.BankRESTwebapp.bankrestwebapp.dao.model.User;
 import com.lukasaravanja.BankRESTwebapp.bankrestwebapp.repository.AccountsRepository;
 import com.lukasaravanja.BankRESTwebapp.bankrestwebapp.repository.UserRepository;
 import com.lukasaravanja.BankRESTwebapp.bankrestwebapp.service.AccountService;
+import com.lukasaravanja.BankRESTwebapp.bankrestwebapp.service.UserService;
 
 
 @RestController
@@ -31,14 +32,16 @@ public class UserController {
 	@Autowired
 	private AccountService accountService;
 	
+	@Autowired
+	private UserService userService;
+	
 	
 	@GetMapping(value = "/user/accounts")
 	private  List <Accounts> userAccounts()
 	{
-		org.springframework.security.core.Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
-		User user=userRepository.findByUsername(authentication.getName());
 		
-		 List<Accounts> userAccounts=accountsRepository.findByUser(user);
+		
+		 List<Accounts> userAccounts=accountsRepository.findByUser(userService.checkUser());
 		 
 		 return userAccounts;
 		
@@ -47,12 +50,11 @@ public class UserController {
 	@DeleteMapping(value = "/user/account")
 	private void deleteUserAccount(@RequestParam("accountNumber") int accountNumber)
 	{
-		org.springframework.security.core.Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
-		User user=userRepository.findByUsername(authentication.getName());
+		
 		
 		Accounts userAccount=accountsRepository.findByAccountNumber(accountNumber);
 		
-		if(userAccount.getUser() != user)
+		if(userAccount.getUser() != userService.checkUser())
 			throw new NullPointerException("This is not your account");
 		
 		accountsRepository.delete(userAccount);
@@ -72,10 +74,11 @@ public class UserController {
 	}
 	
 	@PostMapping("/user/transfer")
-	private void transferMoney(int accountNumberSource,int accountNumberDestination,double amount)
+	private void transferMoney(@RequestParam("accountNumberSource")int accountNumberSource,@RequestParam("accountNumberDestination")int accountNumberDestination,@RequestParam("amount")double amount)
 	{
 		accountService.transferMoney(accountNumberSource, accountNumberDestination, amount);
 	}
+}
 	
 //	@PostMapping("/user/account")
 //	private void addAccount(@RequestParam("accountNumber") int accountNumber,@RequestParam("accountBalance")double accountBalance)
@@ -89,8 +92,4 @@ public class UserController {
 	
 	
 
-	    
-	
-	
-	
-}
+	   
