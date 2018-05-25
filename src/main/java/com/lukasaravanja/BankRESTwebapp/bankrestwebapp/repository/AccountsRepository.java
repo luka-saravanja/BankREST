@@ -2,6 +2,7 @@ package com.lukasaravanja.BankRESTwebapp.bankrestwebapp.repository;
 
 import java.util.List;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,6 +25,7 @@ public interface AccountsRepository extends JpaRepository<Accounts,Integer> {
 	
 	List<Accounts> findAll();
 	
+	@SuppressWarnings("unchecked")
 	Accounts save(Accounts account);
 	
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false)

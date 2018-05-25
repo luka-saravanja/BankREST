@@ -16,47 +16,49 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 @Table(name = "user")
 @EntityListeners(AuditingEntityListener.class)
 @JsonInclude(Include.NON_NULL)
 public class User {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "user_id",updatable = false,nullable = false)
+	@Column(name = "user_id", updatable = false, nullable = false)
 	private Long userId;
+
 	
-	@Column(name = "username",unique = true)
+	@Column(name = "username", unique = true)
+	@NotNull
+	@Size(min = 5,message="Your username should have at least 5 characters")
 	private String username;
 	
 	@Column(name = "password")
+	@NotNull
+	@Size(min = 8,message = "Your password should have at least 8 characters")
 	private String password;
-	
+
 	@Column(name = "enabled")
 	private Integer enabled;
-	
-	
-	@OneToMany(cascade = CascadeType.ALL,
-				fetch = FetchType.LAZY
-				)
-	private Set<Accounts> accounts=new HashSet<>();
-	
-	
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Accounts> accounts = new HashSet<>();
+
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
-	
-	public User()
-	{}
+
+	public User() {
+	}
 
 	public Long getUserId() {
 		return userId;
@@ -97,8 +99,6 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-
-	
 
 	public int getEnabled() {
 		return enabled;
@@ -144,20 +144,5 @@ public class User {
 			return false;
 		return true;
 	}
-
-	
-	
-	
-
-	
-
-
-
-	
-	
-	
-	
-	
-	
 
 }
